@@ -65,6 +65,10 @@ prepare:
 build: ## Build the Docker image for the OTP release
 	docker build --build-arg APP_NAME=$(APP_NAME) --build-arg APP_VERSION=$(APP_VERSION) --rm --tag $(DOCKER_LOCAL_IMAGE) .
 
+.PHONY: deploy
+deploy: ## Deploy the Docker image to fly.io
+	fly deploy
+
 # Development targets
 # -------------------
 
