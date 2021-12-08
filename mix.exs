@@ -59,7 +59,6 @@ defmodule Boilerplate.MixProject do
       {:ueberauth, "~> 0.6"},
       {:ueberauth_identity, "~> 0.3"},
       {:guardian, "~> 2.1"},
-      {:bcrypt_elixir, "~> 2.0"},
 
       # Translation
       {:gettext, "~> 0.18"},
