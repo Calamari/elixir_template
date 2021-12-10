@@ -1,10 +1,10 @@
 import Config
 
 # Configure your database
-config :boilerplate, Boilerplate.Repo,
+config :my_app, MyApp.Repo,
   username: "postgres",
   password: "postgres",
-  database: "boilerplate_dev",
+  database: "my_app_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -15,7 +15,7 @@ config :boilerplate, Boilerplate.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :boilerplate, BoilerplateWeb.Endpoint,
+config :my_app, MyAppWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -53,13 +53,13 @@ config :boilerplate, BoilerplateWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :boilerplate, BoilerplateWeb.Endpoint,
+config :my_app, MyAppWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/boilerplate_web/(live|views)/.*(ex)$",
-      ~r"lib/boilerplate_web/templates/.*(eex)$"
+      ~r"lib/my_app_web/(live|views)/.*(ex)$",
+      ~r"lib/my_app_web/templates/.*(eex)$"
     ]
   ]
 

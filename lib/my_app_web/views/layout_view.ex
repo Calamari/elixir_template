@@ -1,5 +1,5 @@
-defmodule BoilerplateWeb.LayoutView do
-  use BoilerplateWeb, :view
+defmodule MyAppWeb.LayoutView do
+  use MyAppWeb, :view
 
   # Phoenix LiveDashboard is available only in development by default,
   # so we instruct Elixir to not warn if the dashboard route is missing.

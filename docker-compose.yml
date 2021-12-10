@@ -5,18 +5,18 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - boilerplate-db-data:/var/lib/postgresql/data
+      - my_app-db-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: boilerplate_dev
+      POSTGRES_DB: my_app_dev
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     networks:
-      - boilerplate-net
+      - my_app-net
 
 networks:
-  boilerplate-net:
+  my_app-net:
     driver: bridge
 
 volumes:
-  boilerplate-db-data:
+  my_app-db-data:
     external: false

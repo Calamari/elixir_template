@@ -7,17 +7,17 @@
 # General application configuration
 import Config
 
-config :boilerplate,
-  ecto_repos: [Boilerplate.Repo]
+config :my_app,
+  ecto_repos: [MyApp.Repo]
 
 # Configures the endpoint
-config :boilerplate, BoilerplateWeb.Endpoint,
+config :my_app, MyAppWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: BoilerplateWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Boilerplate.PubSub,
+  render_errors: [view: MyAppWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: MyApp.PubSub,
   live_view: [signing_salt: "VhGdDVAr"]
 
-config :boilerplate, Nioomi.Repo, migration_primary_key: [type: :uuid]
+config :my_app, Nioomi.Repo, migration_primary_key: [type: :uuid]
 
 # Configures the mailer
 #
@@ -26,7 +26,7 @@ config :boilerplate, Nioomi.Repo, migration_primary_key: [type: :uuid]
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :boilerplate, Boilerplate.Mailer, adapter: Bamboo.LocalAdapter
+config :my_app, MyApp.Mailer, adapter: Bamboo.LocalAdapter
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -35,6 +35,18 @@ config :esbuild,
     args: ~w(js/app.ts --bundle --target=es2016 --outdir=../priv/static/assets),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+config :ueberauth, Ueberauth,
+  providers: [
+    identity:
+      {Ueberauth.Strategy.Identity,
+       [
+         param_nesting: "account",
+         request_path: "/register",
+         callback_path: "/register",
+         callback_methods: ["POST"]
+       ]}
   ]
 
 # Configures Elixir's Logger

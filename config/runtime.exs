@@ -14,7 +14,7 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  config :boilerplate, Boilerplate.Repo,
+  config :my_app, MyApp.Repo,
     # ssl: true,
     socket_options: [:inet6],
     url: database_url,
@@ -37,7 +37,7 @@ if config_env() == :prod do
     System.get_env("FLY_APP_NAME") ||
       raise "FLY_APP_NAME not available"
 
-  config :boilerplate, BoilerplateWeb.Endpoint,
+  config :my_app, MyAppWeb.Endpoint,
     url: [host: "#{app_name}.fly.dev", port: 80],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -49,7 +49,7 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :boilerplate, Boilerplate.Mailer,
+  config :my_app, MyApp.Mailer,
     adapter: Bamboo.SendGridAdapter,
     api_key: {:system, "SENDGRID_KEY"}
 
@@ -58,7 +58,7 @@ if config_env() == :prod do
     environment_name: :staging,
     revision: {:system, "HEROKU_SLUG_COMMIT"}
 
-  config :boilerplate, ElixirBoilerplateWeb.Router,
+  config :my_app, MyAppWeb.Router,
     session_key: {:system, "SESSION_KEY"},
     session_signing_salt: {:system, "SESSION_SIGNING_SALT"}
 
@@ -67,7 +67,7 @@ if config_env() == :prod do
   # If you are doing OTP releases, you need to instruct Phoenix
   # to start each relevant endpoint:
   #
-  config :boilerplate, BoilerplateWeb.Endpoint, server: true
+  config :my_app, MyAppWeb.Endpoint, server: true
   #
   # Then you can assemble a release by calling `mix release`.
   # See `mix help release` for more information.

@@ -1,5 +1,5 @@
-defmodule BoilerplateWeb.PageControllerTest do
-  use BoilerplateWeb.ConnCase
+defmodule MyAppWeb.PageControllerTest do
+  use MyAppWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

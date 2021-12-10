@@ -1,11 +1,11 @@
-defmodule BoilerplateWeb.Router do
-  use BoilerplateWeb, :router
+defmodule MyAppWeb.Router do
+  use MyAppWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {BoilerplateWeb.LayoutView, :root}
+    plug :put_root_layout, {MyAppWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,14 +14,14 @@ defmodule BoilerplateWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", BoilerplateWeb do
+  scope "/", MyAppWeb do
     pipe_through :browser
 
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", BoilerplateWeb do
+  # scope "/api", MyAppWeb do
   #   pipe_through :api
   # end
 
@@ -37,7 +37,7 @@ defmodule BoilerplateWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: BoilerplateWeb.Telemetry
+      live_dashboard "/dashboard", metrics: MyAppWeb.Telemetry
     end
   end
 

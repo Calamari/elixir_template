@@ -1,9 +1,9 @@
-defmodule Boilerplate.Release do
+defmodule MyApp.Release do
   @moduledoc """
   Used for executing DB release tasks when run in production without Mix
   installed.
   """
-  @app :boilerplate
+  @app :my_app
 
   def migrate do
     load_app()

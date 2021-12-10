@@ -1,12 +1,12 @@
-defmodule BoilerplateWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :boilerplate
+defmodule MyAppWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :my_app
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_boilerplate_key",
+    key: "_my_app_key",
     signing_salt: "nf596+fs"
   ]
 
@@ -18,7 +18,7 @@ defmodule BoilerplateWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :boilerplate,
+    from: :my_app,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -28,7 +28,7 @@ defmodule BoilerplateWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :boilerplate
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :my_app
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -46,5 +46,5 @@ defmodule BoilerplateWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug BoilerplateWeb.Router
+  plug MyAppWeb.Router
 end
