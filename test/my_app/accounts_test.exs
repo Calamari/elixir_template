@@ -345,7 +345,7 @@ defmodule MyApp.AccountsTest do
       assert Accounts.get_by_email(user.email).confirmed
     end
 
-    test "returns error if email does not exist", %{user: user, token: token} do
+    test "returns error if email does not exist", %{token: token} do
       result = Accounts.confirm_email("another@email.de", token.token)
 
       assert result == {:error, :no_token_for_email}

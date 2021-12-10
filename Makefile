@@ -12,7 +12,7 @@ DOCKER_REMOTE_IMAGE = $(DOCKER_REGISTRY)/$(DOCKER_LOCAL_IMAGE)
 # Linter and formatter configuration
 # ----------------------------------
 
-PRETTIER_FILES_PATTERN = '*.config.js' '{js,css,scripts}/**/*.{js,graphql,scss,css}' '../*.md' '../*/*.md'
+PRETTIER_FILES_PATTERN = '*.config.js' '{js,ts,css,scripts}/**/*.{js,ts,scss,css}' '../*.md'
 STYLES_PATTERN = 'css'
 
 # Introspection targets
@@ -107,7 +107,7 @@ check-code-security:
 .PHONY: check-format
 check-format:
 	mix format --check-formatted
-	cd assets && npx prettier --check $(PRETTIER_FILES_PATTERN)
+	cd assets && npm run prettier
 
 .PHONY: check-unused-dependencies
 check-unused-dependencies:
@@ -116,8 +116,8 @@ check-unused-dependencies:
 .PHONY: format
 format: ## Format project files
 	mix format
-	cd assets && npx prettier --write $(PRETTIER_FILES_PATTERN)
-	cd assets && npx stylelint $(STYLES_PATTERN) --fix --quiet
+	cd assets && npm run format
+	cd assets && npm run lint:styles
 
 .PHONY: lint
 lint: lint-elixir lint-scripts lint-styles ## Lint project files
@@ -129,8 +129,8 @@ lint-elixir:
 
 .PHONY: lint-scripts
 lint-scripts:
-	cd assets && npx eslint .
+	cd assets && npm run lint
 
 .PHONY: lint-styles
 lint-styles:
-	cd assets && npx stylelint --syntax scss $(STYLES_PATTERN)
+	cd assets && npm run lint:styles

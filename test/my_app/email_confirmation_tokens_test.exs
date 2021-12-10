@@ -56,13 +56,13 @@ defmodule MyApp.EmailConfirmationTokensTest do
                EmailConfirmationTokens.redeem_token(String.upcase(token.email), "bad")
     end
 
-    test "redeem_token/2 says when email has no token", %{token: token} do
+    test "redeem_token/2 says when email has no token" do
       assert {:error, :no_token_for_email} ==
                EmailConfirmationTokens.redeem_token(@email, "doesnt_matter")
     end
 
     test "redeem_token/2 deletes redeemed token", %{token: token} do
-      :ok == EmailConfirmationTokens.redeem_token(String.upcase(token.email), token.token)
+      :ok = EmailConfirmationTokens.redeem_token(String.upcase(token.email), token.token)
 
       # Now it's deleted
       assert {:error, :no_token_for_email} ==

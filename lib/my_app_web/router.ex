@@ -1,13 +1,15 @@
 defmodule MyAppWeb.Router do
+  @moduledoc false
   use MyAppWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug(:session)
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, {MyAppWeb.LayoutView, :root}
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'"}
   end
 
   pipeline :auth do

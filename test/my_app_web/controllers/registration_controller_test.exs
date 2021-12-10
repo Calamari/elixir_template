@@ -2,8 +2,6 @@ defmodule MyAppWeb.RegistrationControllerTest do
   use MyAppWeb.ConnCase, async: true
   use Bamboo.Test
 
-  import MyApp.Factory
-
   @name "Bob Dylan"
   @email "bob@dylan.com"
   @password "password"
@@ -42,16 +40,12 @@ defmodule MyAppWeb.RegistrationControllerTest do
     end
 
     test "sends out an email to confirm email address", %{conn: conn} do
-      conn = post(conn, Routes.registration_path(conn, :create), @valid_params)
+      post(conn, Routes.registration_path(conn, :create), @valid_params)
 
       assert_delivered_email_matches(%{to: [{_, @email}], text_body: text_body})
 
       assert text_body =~
                "http://localhost:4002/email/#{URI.encode_www_form(@email)}/confirmation/"
     end
-  end
-
-  defp create_user(_) do
-    %{user: insert(:user, %{email: @email, password: @password})}
   end
 end

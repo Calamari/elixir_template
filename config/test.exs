@@ -20,6 +20,14 @@ config :my_app, MyAppWeb.Endpoint,
   secret_key_base: "AYdzMYgtlMSGv8FKH9O2gAw9i8FCCAeci7aDYbuRu7coPFqRNzDIawqByLFGi51t",
   server: false
 
+config :my_app, MyAppWeb.Router,
+  session_key: "my_app_dev_sess",
+  session_signing_salt: "mz3z6MRz16uGDEvsUhlG/i3cFhI627+lFKki1Nzhlh/IiCkhR0EAMgZQfrfp2Lxn"
+
+config :my_app, MyAppWeb.Authentication,
+  issuer: "my_app",
+  secret_key: "qs0y6iXwd36NdnKpD3aZoMlY9qJCq0bq8gsla2QynK1BtyIa9udlcJ0W1RJ3n3jX"
+
 # In test we don't send emails.
 config :my_app, MyApp.Mailer, adapter: Bamboo.TestAdapter
 

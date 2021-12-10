@@ -50,9 +50,7 @@ config :ueberauth, Ueberauth,
        ]}
   ]
 
-config :my_app, MyAppWeb.Authentication,
-  issuer: "my_app",
-  secret_key: "qs0y6iXwd36NdnKpD3aZoMlY9qJCq0bq8gsla2QynK1BtyIa9udlcJ0W1RJ3n3jX"
+config :my_app, MyAppWeb.Authentication, issuer: "my_app"
 
 # Configures Elixir's Logger
 config :logger, :console,
