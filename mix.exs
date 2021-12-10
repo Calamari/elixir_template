@@ -55,16 +55,23 @@ defmodule Boilerplate.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
 
+      # PostgreSQL PostGIS extension
+      {:geo_postgis, "~> 3.4"},
+
       # Authentication
       {:ueberauth, "~> 0.6"},
       {:ueberauth_identity, "~> 0.3"},
       {:guardian, "~> 2.1"},
+      {:bcrypt_elixir, "~> 2.0"},
 
       # Translation
       {:gettext, "~> 0.18"},
 
       # HTML Parsing
       {:floki, ">= 0.30.0", only: :test},
+
+      # Testing
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
 
       # Test factories
       {:ex_machina, "~> 2.7", only: :test},
