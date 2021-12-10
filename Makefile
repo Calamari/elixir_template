@@ -72,8 +72,9 @@ deploy: ## Deploy the Docker image to fly.io
 # Development targets
 # -------------------
 
-.PHONY: run
-run: ## Run the server inside an IEx shell
+.PHONY: dev
+run: ## Run the server inside an IEx shell and starts the dockerized database
+	docker-compose up -d
 	iex -S mix phx.server
 
 .PHONY: dependencies

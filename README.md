@@ -1,19 +1,19 @@
 # Boilerplate
 
-To start your Phoenix server:
+This tempalte is my boilerplate to start new Elixir projects. It should contain authentication, Bamboo powered Emails and a release strategy for fly.io.
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Usage
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Call ./setup_boilerplate.sh with your desired app naming, like `./setup_boilerplate.sh MyGreatApp`. And then look into to Makefile to see a nice variety of things you can do.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+There is also a local database server provided using docker:
 
-## Learn more
+```sh
+docker-compose up -d
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+But to run everything in development mode just run:
+
+```sh
+make dev
+```
