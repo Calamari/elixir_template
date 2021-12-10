@@ -17,6 +17,8 @@ config :boilerplate, BoilerplateWeb.Endpoint,
   pubsub_server: Boilerplate.PubSub,
   live_view: [signing_salt: "VhGdDVAr"]
 
+config :boilerplate, Nioomi.Repo, migration_primary_key: [type: :uuid]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
