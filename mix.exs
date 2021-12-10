@@ -63,6 +63,7 @@ defmodule MyApp.MixProject do
       {:ueberauth_identity, "~> 0.3"},
       {:guardian, "~> 2.1"},
       {:bcrypt_elixir, "~> 2.0"},
+      {:secure_random, "~> 0.5"},
 
       # Translation
       {:gettext, "~> 0.18"},

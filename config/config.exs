@@ -17,7 +17,7 @@ config :my_app, MyAppWeb.Endpoint,
   pubsub_server: MyApp.PubSub,
   live_view: [signing_salt: "VhGdDVAr"]
 
-config :my_app, Nioomi.Repo, migration_primary_key: [type: :uuid]
+config :my_app, MyApp.Repo, migration_primary_key: [type: :uuid]
 
 # Configures the mailer
 #
@@ -27,6 +27,7 @@ config :my_app, Nioomi.Repo, migration_primary_key: [type: :uuid]
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
 config :my_app, MyApp.Mailer, adapter: Bamboo.LocalAdapter
+config :my_app, :email_sender, "joda@example.com"
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -48,6 +49,10 @@ config :ueberauth, Ueberauth,
          callback_methods: ["POST"]
        ]}
   ]
+
+config :my_app, MyAppWeb.Authentication,
+  issuer: "my_app",
+  secret_key: "qs0y6iXwd36NdnKpD3aZoMlY9qJCq0bq8gsla2QynK1BtyIa9udlcJ0W1RJ3n3jX"
 
 # Configures Elixir's Logger
 config :logger, :console,

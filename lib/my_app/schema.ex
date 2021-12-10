@@ -1,4 +1,4 @@
-defmodule Nioomi.Schema do
+defmodule MyApp.Schema do
   @moduledoc """
   Common Schema definition that uses UUID as primary key.
   """

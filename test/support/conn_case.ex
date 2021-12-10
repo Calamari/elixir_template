@@ -28,6 +28,10 @@ defmodule MyAppWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint MyAppWeb.Endpoint
+
+      defp login_user(conn, user) do
+        MyAppWeb.Authentication.log_in(conn, user)
+      end
     end
   end
 

@@ -49,6 +49,10 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :my_app, MyAppWeb.Authentication,
+    issuer: "my_app",
+    secret_key: {:system, "GUARIAN_SECRET_KEY"}
+
   config :my_app, MyApp.Mailer,
     adapter: Bamboo.SendGridAdapter,
     api_key: {:system, "SENDGRID_KEY"}

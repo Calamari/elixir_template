@@ -1,4 +1,4 @@
-defmodule Nioomi.Email do
+defmodule MyApp.Email do
   @moduledoc """
   Email template for all the emails.
   """
@@ -25,7 +25,7 @@ defmodule Nioomi.Email do
   def email_confirmation_email(user, link) do
     new_email(
       to: user.email,
-      from: Application.get_env(:nioomi, :email_sender),
+      from: Application.get_env(:my_app, :email_sender),
       subject: "Please Confirm This is Your Email.",
       html_body: """
       <strong>Someone registered with this email.</strong>

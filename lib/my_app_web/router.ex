@@ -10,6 +10,15 @@ defmodule MyAppWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :auth do
+    plug(MyAppWeb.Authentication.Pipeline)
+  end
+
+  pipeline :ensure_auth do
+    plug(:auth)
+    plug(Guardian.Plug.EnsureAuthenticated)
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -18,6 +27,32 @@ defmodule MyAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    # Authentication flow routes
+    get("/register", RegistrationController, :new)
+    post("/register", RegistrationController, :create)
+    get("/login", SessionController, :new)
+    post("/login", SessionController, :create)
+    delete("/logout", SessionController, :delete)
+    get("/forgot_password", PasswordResetController, :new)
+    post("/forgot_password", PasswordResetController, :create)
+    get("/forgot_password/sent", PasswordResetController, :sent)
+    get("/forgot_password/redeem", PasswordResetController, :redeem)
+    post("/forgot_password/redeem/:token", PasswordResetController, :do_redeem)
+
+    get("/email/:email/confirmation/:token", EmailConfirmationController, :confirm,
+      as: :email_confirmation
+    )
+  end
+
+  scope "/", MyAppWeb do
+    pipe_through [:browser, :ensure_auth, :assign_current_user]
+
+    resources("/profile", ProfileController, only: [:show], singleton: true)
+
+    post("/email/confirmation/", EmailConfirmationController, :create,
+      as: :resend_email_confirmation
+    )
   end
 
   # Other scopes may use custom stacks.
@@ -51,5 +86,23 @@ defmodule MyAppWeb.Router do
 
       forward "/mailbox", Bamboo.SentEmailViewerPlug
     end
+  end
+
+  defp assign_current_user(conn, _) do
+    assign(conn, :current_user, MyAppWeb.Authentication.get_current_user(conn))
+  end
+
+  # The session will be stored in the cookie and signed,
+  # this means its contents can be read but not tampered with.
+  # Set :encryption_salt if you would also like to encrypt it.
+  defp session(conn, _opts) do
+    opts =
+      Plug.Session.init(
+        store: :cookie,
+        key: Application.get_env(:my_app, __MODULE__)[:session_key],
+        signing_salt: Application.get_env(:my_app, __MODULE__)[:session_signing_salt]
+      )
+
+    Plug.Session.call(conn, opts)
   end
 end
