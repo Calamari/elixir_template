@@ -9,12 +9,6 @@ DOCKER_REGISTRY ?=
 DOCKER_LOCAL_IMAGE = $(APP_NAME):$(DOCKER_IMAGE_TAG)
 DOCKER_REMOTE_IMAGE = $(DOCKER_REGISTRY)/$(DOCKER_LOCAL_IMAGE)
 
-# Linter and formatter configuration
-# ----------------------------------
-
-PRETTIER_FILES_PATTERN = '*.config.js' '{js,ts,css,scripts}/**/*.{js,ts,scss,css}' '../*.md'
-STYLES_PATTERN = 'css'
-
 # Introspection targets
 # ---------------------
 
