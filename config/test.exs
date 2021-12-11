@@ -21,7 +21,7 @@ config :my_app, MyAppWeb.Endpoint,
   server: false
 
 config :my_app, MyAppWeb.Router,
-  session_key: "my_app_dev_sess",
+  session_key: "my_app_test_sess",
   session_signing_salt: "mz3z6MRz16uGDEvsUhlG/i3cFhI627+lFKki1Nzhlh/IiCkhR0EAMgZQfrfp2Lxn"
 
 config :my_app, MyAppWeb.Authentication,
