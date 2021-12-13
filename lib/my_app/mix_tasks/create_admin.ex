@@ -1,4 +1,4 @@
-defmodule MyApp.Tasks.CreateAdmin do
+defmodule MyApp.MixTasks.CreateAdmin do
   @moduledoc """
   Implementation of task to create admin user.
   """

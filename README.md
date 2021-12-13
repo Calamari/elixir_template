@@ -25,5 +25,5 @@ make dev
 To create an admin user, you can run the following task:
 
 ```sh
-mix my_app.create_admin "Your Name" your@email.io passw0rd
+mix my_app.create_admin your@email.io "Your Name" passw0rd
 ```
