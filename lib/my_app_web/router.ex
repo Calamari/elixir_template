@@ -26,7 +26,7 @@ defmodule MyAppWeb.Router do
   end
 
   scope "/", MyAppWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth, :assign_current_user]
 
     get "/", PageController, :index
 

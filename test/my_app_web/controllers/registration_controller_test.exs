@@ -39,6 +39,16 @@ defmodule MyAppWeb.RegistrationControllerTest do
       assert redirected_to(conn, 302) =~ "/some/other/path"
     end
 
+    test "redirects to profile page if after is empty", %{conn: conn} do
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> get(Routes.registration_path(conn, :new), %{after: ""})
+        |> post(Routes.registration_path(conn, :create), @valid_params)
+
+      assert redirected_to(conn, 302) =~ Routes.profile_path(conn, :show)
+    end
+
     test "sends out an email to confirm email address", %{conn: conn} do
       post(conn, Routes.registration_path(conn, :create), @valid_params)
 

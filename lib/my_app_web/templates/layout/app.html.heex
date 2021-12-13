@@ -1,5 +1,13 @@
-<main class="container">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-  <%= @inner_content %>
+<main class="flex justify-center grow bg-gray-100 p-4 bg-gradient-to-t from-white to-gray-50">
+  <section class="flex flex-col justify-start grow container">
+    <% flash = get_flash(@conn, :info) %>
+    <%= if flash do %>
+      <p class="alert alert-info" role="alert"><%= flash %></p>
+    <% end %>
+    <% flash = get_flash(@conn, :error) %>
+    <%= if flash do %>
+      <p class="alert alert-danger" role="alert"><%= flash %></p>
+    <% end %>
+    <%= @inner_content %>
+  </section>
 </main>

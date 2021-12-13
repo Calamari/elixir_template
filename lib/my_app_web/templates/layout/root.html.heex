@@ -9,20 +9,23 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body>
-    <header>
+  <body class="flex flex-col justify-evenly max-h-full">
+    <header class="flex justify-center border-b-2 border-indigo-500 text-indigo-800 p-4">
       <section class="container">
         <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
+          <ul class="flex flex-row space-x-2">
+            <li><%= link gettext("Home"), to: Routes.page_path(@conn, :index) %></li>
+            <%= if @conn.assigns[:current_user] do %>
+              <li><%= link gettext("Profile"), to: Routes.profile_path(@conn, :show) %></li>
+              <li><%= link gettext("Logout"), to: Routes.session_path(@conn, :delete), method: :delete %></li>
+            <% else %>
+              <li><%= link gettext("Login"), to: Routes.session_path(@conn, :new) %></li>
+            <% end %>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
           </ul>
         </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
       </section>
     </header>
     <%= @inner_content %>

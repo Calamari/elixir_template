@@ -24,6 +24,10 @@ defmodule MyAppWeb do
       import Plug.Conn
       import MyAppWeb.Gettext
       alias MyAppWeb.Router.Helpers, as: Routes
+
+      def is_empty(str) do
+        is_nil(str) || str == ""
+      end
     end
   end
 

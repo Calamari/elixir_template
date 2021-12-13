@@ -33,9 +33,14 @@ config :my_app, :email_sender, "joda@example.com"
 config :esbuild,
   version: "0.12.18",
   default: [
-    args: ~w(js/app.ts --bundle --target=es2016 --outdir=../priv/static/assets),
-    cd: Path.expand("../assets", __DIR__),
-    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+    "build.js",
+    cd: Path.expand("../assets/scripts", __DIR__),
+    env: %{
+      "ESBUILD_LOG_LEVEL" => "silent",
+      "ESBUILD_WATCH" => "1",
+      "NODE_ENV" => "development",
+      "NODE_PATH" => Path.expand("../deps", __DIR__)
+    }
   ]
 
 config :ueberauth, Ueberauth,

@@ -21,13 +21,18 @@ defmodule MyAppWeb.SessionController do
     else
       case email |> Accounts.get_by_email() |> Authentication.authenticate(password) do
         {:ok, account} ->
-          redirect_path =
-            get_session(conn, :register_redirect) || Routes.profile_path(conn, :show)
+          redirect_path = get_session(conn, :register_redirect)
 
           conn
           |> Authentication.log_in(account)
           |> delete_session(:register_redirect)
-          |> redirect(to: redirect_path)
+          |> redirect(
+            to:
+              if(!is_empty(redirect_path),
+                do: redirect_path,
+                else: Routes.profile_path(conn, :show)
+              )
+          )
 
         {:error, :invalid_credentials} ->
           conn

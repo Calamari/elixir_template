@@ -1,0 +1,15 @@
+.alert {
+  &-info {
+    @apply p-2
+      mb-4
+      bg-cyan-500
+      text-white;
+  }
+
+  &-danger {
+    @apply p-2
+      mb-4
+      bg-red-500
+      text-white;
+  }
+}

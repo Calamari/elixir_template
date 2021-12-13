@@ -26,7 +26,7 @@ defmodule MyAppWeb.RegistrationController do
         |> EmailConfirmationTokens.send_mail_with_token(user)
         |> redirect(
           to:
-            if(redirect_path,
+            if(!is_empty(redirect_path),
               do: redirect_path,
               else: Routes.profile_path(conn, :show)
             )

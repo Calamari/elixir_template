@@ -14,7 +14,7 @@ defmodule MyAppWeb.SessionControllerTest do
     @valid_params %{account: %{email: @email, password: @password}}
     @invalid_params %{account: %{email: @email, password: "..."}}
 
-    test "logging in works", %{conn: conn} do
+    test "logging works and redirects to profile path if not stated otherwise", %{conn: conn} do
       conn = post(conn, Routes.session_path(conn, :create), @valid_params)
 
       assert Authentication.get_current_user(conn)
@@ -39,6 +39,16 @@ defmodule MyAppWeb.SessionControllerTest do
 
       refute Authentication.get_current_user(conn)
       assert redirected_to(conn, 302) =~ Routes.session_path(conn, :new)
+    end
+
+    test "redirects to somewhere else if coming from register page", %{conn: conn} do
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{register_redirect: "/some/other/path"})
+        |> post(Routes.session_path(conn, :create), @valid_params)
+
+      assert Authentication.get_current_user(conn)
+      assert redirected_to(conn, 302) =~ "/some/other/path"
     end
   end
 
