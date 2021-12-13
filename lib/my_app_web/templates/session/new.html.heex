@@ -1,17 +1,8 @@
 <%= form_for @changeset, @action, [as: :account, class: "prose"], fn f -> %>
   <h2>Log In</h2>
 
-  <p>
-    <%= label f, :email, "Email address", class: "block" %>
-    <%= email_input f, :email %>
-    <%= error_tag f, :email %>
-  </p>
-
-    <p>
-    <%= label f, :password, "Password", class: "block" %>
-    <%= password_input f, :password %>
-    <%= error_tag f, :password %>
-  </p>
+  <%= input f, :email, "Email address" %>
+  <%= input f, :password, "Password" %>
 
   <div class="block">
     <%= submit "Log In", class: "btn btn-primary" %>

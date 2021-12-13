@@ -1,29 +1,10 @@
 <%= form_for @changeset, @action, [as: :account, class: "prose"], fn f -> %>
   <h1 class="text-3xl font-bold">Register</h1>
 
-  <p>
-    <%= label f, :name, "Name (optional)", class: "block" %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
-  </p>
-
-  <p>
-    <%= label f, :email, "Email address", class: "block" %>
-    <%= email_input f, :email %>
-    <%= error_tag f, :email %>
-  </p>
-
-  <p>
-    <%= label f, :password, "Password", class: "block" %>
-    <%= password_input f, :password %>
-    <%= error_tag f, :password %>
-  </p>
-
-  <p>
-    <%= label f, :password_confirmation, "Password Confirmation", class: "block" %>
-    <%= password_input f, :password_confirmation %>
-    <%= error_tag f, :password_confirmation %>
-  </p>
+  <%= input f, :name, "Name (optional)" %>
+  <%= input f, :email, "Email address" %>
+  <%= input f, :password, "Password" %>
+  <%= input f, :password_confirmation, "Password Confirmation" %>
 
   <div class="block">
     <%= submit "Register", class: "btn btn-primary" %>

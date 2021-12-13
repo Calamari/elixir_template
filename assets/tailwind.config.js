@@ -8,6 +8,7 @@ module.exports = {
     "../../lib/**/*.lexs",
     "../../lib/**/*.exs",
     "../../lib/**/*.eex",
+    "../../lib/**/*.ex",
     "../js/**/*.js"
   ],
   theme: {
