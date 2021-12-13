@@ -7,6 +7,7 @@ defmodule MyAppWeb.InputHelpers do
 
     wrapper_opts = merge_opts([class: "mb-4"], wrapper_opts)
     label_opts = [class: "block"]
+    input_opts = [required: Keyword.get(wrapper_opts, :required, false)]
 
     Phoenix.HTML.Tag.content_tag :div, wrapper_opts do
       label =
@@ -17,7 +18,7 @@ defmodule MyAppWeb.InputHelpers do
           label_opts
         )
 
-      input = apply(Phoenix.HTML.Form, type, [form, field])
+      input = apply(Phoenix.HTML.Form, type, [form, field, input_opts])
       error = MyAppWeb.ErrorHelpers.error_tag(form, field) || ""
       [label, input, error]
     end

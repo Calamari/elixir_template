@@ -74,6 +74,8 @@ config :my_app, MyAppWeb.Router,
   session_key: "my_app_dev_sess",
   session_signing_salt: "bzt+fviYAyUARQr1KzfxxWtv41fsqcAiQKqlIPVvc4kFeAlByE+NBb+aIf3K2DAh"
 
+config :my_app, Nioomi.Mailer, adapter: Bamboo.LocalAdapter
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

@@ -33,7 +33,9 @@ defmodule MyAppWeb.PasswordResetController do
         end
     end
 
-    redirect(conn, to: Routes.password_reset_path(conn, :sent))
+    conn
+    |> put_flash(:success, "Password Reset Instructions Sent")
+    |> redirect(to: Routes.password_reset_path(conn, :sent))
   end
 
   def sent(conn, _) do
@@ -56,7 +58,7 @@ defmodule MyAppWeb.PasswordResetController do
          user when not is_nil(user) <- Accounts.get_user(token.user_id),
          {:ok, _} <- Accounts.update_password_of_user(user, password_reset_params) do
       conn
-      |> put_flash(:info, "Password was successfully changed!")
+      |> put_flash(:success, "Password was successfully changed!")
       |> redirect(to: Routes.session_path(conn, :new))
     else
       {:error, changeset} ->
