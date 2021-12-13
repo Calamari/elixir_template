@@ -17,3 +17,13 @@ But to run everything in development mode just run:
 ```sh
 make dev
 ```
+
+## First run
+
+### Creating an admin user
+
+To create an admin user, you can run the following task:
+
+```sh
+mix my_app.create_admin "Your Name" your@email.io passw0rd
+```

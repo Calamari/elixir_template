@@ -83,7 +83,7 @@ defmodule MyApp.Accounts do
 
   """
   def get_by_email(email) do
-    Repo.get_by(User, email: email)
+    Repo.get_by(User, email: String.downcase(email))
   end
 
   @doc """
