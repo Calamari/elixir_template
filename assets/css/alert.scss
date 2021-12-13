@@ -1,15 +1,27 @@
 .alert {
+  @apply w-full text-white mb-4;
+
+  &-success {
+    @apply bg-green-500;
+
+    &__inner {
+      @apply container flex items-center justify-between px-6 py-4 mx-auto;
+    }
+  }
+
   &-info {
-    @apply p-2
-      mb-4
-      bg-cyan-500
-      text-white;
+    @apply bg-blue-500;
+
+    &__inner {
+      @apply container flex items-center justify-between px-6 py-4 mx-auto;
+    }
   }
 
   &-danger {
-    @apply p-2
-      mb-4
-      bg-red-500
-      text-white;
+    @apply bg-red-500;
+
+    &__inner {
+      @apply container flex items-center justify-between px-6 py-4 mx-auto;
+    }
   }
 }
