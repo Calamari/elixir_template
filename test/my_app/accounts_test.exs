@@ -24,6 +24,13 @@ defmodule MyApp.AccountsTest do
       assert Accounts.count_users() == 1
     end
 
+    test "get_by_email/1 finds user by name (caseinsensitive)" do
+      user = insert(:user, email: "luke@skywalk.er", name: "Luke")
+
+      assert Accounts.get_by_email("luke@skywalk.er").name == "Luke"
+      assert Accounts.get_by_email("luke@SKYwalk.er").name == "Luke"
+    end
+
     test "list_users/0 returns all users" do
       user = insert(:user)
       assert length(Accounts.list_users()) == 1
