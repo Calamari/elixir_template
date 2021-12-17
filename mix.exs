@@ -72,6 +72,9 @@ defmodule MyApp.MixProject do
       {:bcrypt_elixir, "~> 2.0"},
       {:secure_random, "~> 0.5"},
 
+      # Role management
+      {:bodyguard, "~> 2.4"},
+
       # Translation
       {:gettext, "~> 0.18"},
 

@@ -85,14 +85,14 @@ defmodule MyAppWeb.Router do
   defp ensure_admin(conn, _) do
     user = conn.assigns.current_user
 
-    case Bodyguard.permit?(NioomiAdmin, :show, user) do
+    case Bodyguard.permit?(MyAppAdmin, :show, user) do
       true ->
         conn
 
       _ ->
         conn
         |> put_status(403)
-        |> put_view(NioomiWeb.ErrorView)
+        |> put_view(MyAppWeb.ErrorView)
         |> render("403.html")
         |> halt()
     end
