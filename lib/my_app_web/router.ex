@@ -1,6 +1,7 @@
 defmodule MyAppWeb.Router do
   @moduledoc false
   use MyAppWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -62,20 +63,11 @@ defmodule MyAppWeb.Router do
   #   pipe_through :api
   # end
 
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  # Enables LiveDashboard for admin users
+  scope "/admin" do
+    pipe_through([:browser, :ensure_auth, :assign_current_user, :ensure_admin])
 
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: MyAppWeb.Telemetry
-    end
+    live_dashboard "/dashboard", metrics: MyAppWeb.Telemetry
   end
 
   # Enables the Bamboo mailbox preview in development.
@@ -87,6 +79,24 @@ defmodule MyAppWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Bamboo.SentEmailViewerPlug
+    end
+  end
+
+  defp ensure_admin(conn, _) do
+    user = conn.assigns.current_user
+
+    case Bodyguard.permit?(NioomiAdmin, :show, user) do
+      true ->
+        conn
+
+      _ ->
+        IO.inspect("NOOOOOO")
+
+        conn
+        |> put_status(403)
+        |> put_view(NioomiWeb.ErrorView)
+        |> render("403.html")
+        |> halt()
     end
   end
 

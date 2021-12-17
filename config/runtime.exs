@@ -66,6 +66,14 @@ if config_env() == :prod do
     session_key: {:system, "SESSION_KEY"},
     session_signing_salt: {:system, "SESSION_SIGNING_SALT"}
 
+  plausible_host = System.get_env("PLAUSIBLE_HOST")
+
+  config :my_app, :plausible_tracking,
+    host: plausible_host,
+    script: "#{plausible_host}/js/plausible.js",
+    enabled: false,
+    api_token: System.get_env("PLAUSIBLE_API_TOKEN")
+
   # ## Using releases
   #
   # If you are doing OTP releases, you need to instruct Phoenix

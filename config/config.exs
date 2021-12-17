@@ -67,6 +67,14 @@ config :phoenix, :json_library, Jason
 
 config :geo_postgis, json_library: Jason
 
+plausible_host = System.get_env("PLAUSIBLE_HOST")
+
+config :my_app, :plausible_tracking,
+  host: plausible_host,
+  script: "#{plausible_host}/js/plausible.js",
+  enabled: false,
+  api_token: System.get_env("PLAUSIBLE_DEV_API_TOKEN")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
