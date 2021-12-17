@@ -4,8 +4,8 @@ defmodule MyAppWeb.EmailConfirmationTokens do
   """
   use MyAppWeb, :controller
 
-  alias MyApp.EmailConfirmationTokens
   alias MyApp.Accounts.EmailConfirmationToken
+  alias MyApp.EmailConfirmationTokens
   alias MyApp.Mailer
 
   @doc """

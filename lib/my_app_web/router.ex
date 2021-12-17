@@ -90,8 +90,6 @@ defmodule MyAppWeb.Router do
         conn
 
       _ ->
-        IO.inspect("NOOOOOO")
-
         conn
         |> put_status(403)
         |> put_view(NioomiWeb.ErrorView)

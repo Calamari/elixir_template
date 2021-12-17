@@ -4,6 +4,8 @@ defmodule MyAppWeb.Authentication.ErrorHandler do
   """
   use MyAppWeb, :controller
 
+  alias MyAppWeb.Authentication.Plug
+
   @behaviour Guardian.Plug.ErrorHandler
 
   @impl Guardian.Plug.ErrorHandler
@@ -11,7 +13,7 @@ defmodule MyAppWeb.Authentication.ErrorHandler do
     conn =
       if reason == :token_expired do
         conn
-        |> MyAppWeb.Authentication.Plug.sign_out()
+        |> Plug.sign_out()
         |> put_flash(:error, "Session expired.")
       else
         put_flash(conn, :error, "Authentication error.")

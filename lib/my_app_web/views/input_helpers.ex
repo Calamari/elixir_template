@@ -1,25 +1,29 @@
 defmodule MyAppWeb.InputHelpers do
+  alias MyAppWeb.ErrorHelpers
+  alias Phoenix.HTML.Form
+  alias Phoenix.HTML.Tag
+
   @moduledoc """
   Input rendering helpers for use in all views.
   """
   def input(form, field, label_text \\ nil, wrapper_opts \\ []) do
-    type = Phoenix.HTML.Form.input_type(form, field)
+    type = Form.input_type(form, field)
 
     wrapper_opts = merge_opts([class: "mb-4"], wrapper_opts)
     label_opts = [class: "block"]
     input_opts = [required: Keyword.get(wrapper_opts, :required, false)]
 
-    Phoenix.HTML.Tag.content_tag :div, wrapper_opts do
+    Tag.content_tag :div, wrapper_opts do
       label =
-        Phoenix.HTML.Form.label(
+        Form.label(
           form,
           field,
-          label_text || Phoenix.HTML.Form.humanize(field),
+          label_text || Form.humanize(field),
           label_opts
         )
 
-      input = apply(Phoenix.HTML.Form, type, [form, field, input_opts])
-      error = MyAppWeb.ErrorHelpers.error_tag(form, field) || ""
+      input = apply(Form, type, [form, field, input_opts])
+      error = ErrorHelpers.error_tag(form, field) || ""
       [label, input, error]
     end
   end

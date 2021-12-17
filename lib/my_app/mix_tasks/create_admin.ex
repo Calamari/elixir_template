@@ -12,8 +12,8 @@ defmodule MyApp.MixTasks.CreateAdmin do
           {:ok, user} ->
             "Created admin user with email=#{user.email} & name=#{user.name}"
 
-          # credo:disable-for-next-line Credo.Check.Warning.IoInspect
           {:error, changeset} ->
+            # credo:disable-for-next-line Credo.Check.Warning.IoInspect
             IO.inspect(changeset, label: "Could not create user")
         end
 

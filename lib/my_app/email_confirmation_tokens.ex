@@ -4,9 +4,9 @@ defmodule MyApp.EmailConfirmationTokens do
   """
 
   import Ecto.Query, warn: false
-  alias MyApp.Repo
 
   alias MyApp.Accounts.EmailConfirmationToken
+  alias MyApp.Repo
 
   # Use token within 10 minutes
   @max_age 10 * 60

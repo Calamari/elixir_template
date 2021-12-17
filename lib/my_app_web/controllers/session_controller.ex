@@ -28,9 +28,9 @@ defmodule MyAppWeb.SessionController do
           |> delete_session(:register_redirect)
           |> redirect(
             to:
-              if(!is_empty(redirect_path),
-                do: redirect_path,
-                else: Routes.profile_path(conn, :show)
+              if(is_empty(redirect_path),
+                do: Routes.profile_path(conn, :show),
+                else: redirect_path
               )
           )
 

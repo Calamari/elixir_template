@@ -1,16 +1,15 @@
 defmodule MyAppWeb.EmailConfirmationController do
   use MyAppWeb, :controller
 
-  alias MyAppWeb.Authentication
   alias MyApp.Accounts
-  alias MyApp.Accounts.EmailConfirmationToken
-  alias MyApp.EmailConfirmationTokens
+  alias MyAppWeb.Authentication
+  alias MyAppWeb.EmailConfirmationTokens
 
   def create(conn, _params) do
     user = conn.assigns.current_user
 
     conn
-    |> MyAppWeb.EmailConfirmationTokens.send_mail_with_token(user, true)
+    |> EmailConfirmationTokens.send_mail_with_token(user, true)
     |> put_flash(:info, "Email confirmation sent to #{user.email}")
     |> redirect(to: Routes.profile_path(conn, :show))
   end
