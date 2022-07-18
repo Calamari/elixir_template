@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/bash
 # This file is copied and adapted from https://github.com/mirego/elixir-boilerplate/blob/master/boilerplate-setup.sh
 
 # -----------------------------------------------------------------------------
