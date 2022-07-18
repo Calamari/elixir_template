@@ -66,6 +66,11 @@ deploy: ## Deploy the Docker image to fly.io
 # Development targets
 # -------------------
 
+.PHONY: setup
+setup: ## Installs backend and frontend packages
+	mix deps.get
+	npm install --prefix assets
+
 .PHONY: dev
 dev: ## Run the server inside an IEx shell and starts the dockerized database
 	docker-compose up -d
@@ -75,7 +80,7 @@ dev: ## Run the server inside an IEx shell and starts the dockerized database
 start: dev ## Run the server inside an IEx shell and starts the dockerized database
 
 .PHONY: stop
-stop:
+stop: ## Stops dockerized database
 	docker compose down
 
 .PHONY: dependencies
