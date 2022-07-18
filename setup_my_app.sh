@@ -104,6 +104,8 @@ for path in $paths; do
   run mv $path/* $(echo $path | /usr/bin/sed "s/$snakeCaseBefore/$snakeCaseAfter/g" | /usr/bin/sed "s/$kebabCaseBefore/$kebabCaseAfter/g" | /usr/bin/sed "s/$pascalCaseBefore/$pascalCaseAfter/g")
   run rm -rf $path
 done
+find . -iname "${snakeCaseBefore}_*" -exec rename -v "s/${snakeCaseBefore}$/${snakeCaseAfter}/i" {} \;
+find . -iname "${snakeCaseBefore}" -exec rename -v "s/${snakeCaseBefore}$/${snakeCaseAfter}/i" {} \;
 success "Done!\n"
 
 header "Selfdestruct setup script"
