@@ -71,6 +71,13 @@ dev: ## Run the server inside an IEx shell and starts the dockerized database
 	docker-compose up -d
 	iex -S mix phx.server
 
+.PHONY: start
+start: dev ## Run the server inside an IEx shell and starts the dockerized database
+
+.PHONY: stop
+stop:
+	docker compose down
+
 .PHONY: dependencies
 dependencies: ## Install dependencies
 	mix deps.get
