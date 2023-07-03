@@ -85,7 +85,7 @@ defmodule MyAppWeb.Router do
   defp ensure_admin(conn, _) do
     user = conn.assigns.current_user
 
-    case Bodyguard.permit?(NioomiAdmin, :show, user) do
+    case Bodyguard.permit?(MyApp, :show, user) do
       true ->
         conn
 
