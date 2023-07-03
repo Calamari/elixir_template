@@ -41,7 +41,10 @@ paths=$(find . -depth 2 \( \
 \))
 
 files=$(find . \( \
+  -path "./lib/${snakeCaseBefore}" -or \
+  -path "./lib/${snakeCaseBefore}_web" -or \
   -path "./lib/${snakeCaseBefore}.*" -or \
+  -path "./lib/${snakeCaseBefore}_web.*" -or \
   -path "./lib/${snakeCaseBefore}*/${snakeCaseBefore}*" \
 \))
 
