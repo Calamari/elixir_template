@@ -20,10 +20,31 @@ make dev
 
 ## First run
 
+### Create running system
+
+First we need a database:
+
+```sh
+docker-compose up -d
+mix.ecto.migrate
+```
+
 ### Creating an admin user
 
 To create an admin user, you can run the following task:
 
 ```sh
-mix my_app.create_admin your@email.io "Your Name" passw0rd
+mix dance_comm.create_admin your@email.io "Your Name" passw0rd
+```
+
+### Prepare frontend:
+
+```sh
+npm i --prefix assets
+```
+
+### Run Test server
+
+```sh
+make start # or dev
 ```
