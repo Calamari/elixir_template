@@ -6,8 +6,7 @@ defmodule MyApp.Accounts do
   import Ecto.Query, warn: false
   alias MyApp.Repo
 
-  alias MyApp.Accounts.PasswordResetToken
-  alias MyApp.Accounts.User
+  alias __MODULE__.{PasswordResetToken, User}
   alias MyApp.EmailConfirmationTokens
 
   @doc """
