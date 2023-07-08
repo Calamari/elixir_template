@@ -16,7 +16,7 @@ defmodule MyAppWeb.Authentication.ErrorHandler do
         |> Plug.sign_out()
         |> put_flash(:error, "Session expired.")
       else
-        put_flash(conn, :error, "Authentication error.")
+        put_flash(conn, :error, "You have to be logged in to access this resource.")
       end
 
     if conn.request_path != "/login" do

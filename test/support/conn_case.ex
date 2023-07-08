@@ -26,12 +26,16 @@ defmodule MyAppWeb.ConnCase do
 
       # Import conveniences for testing with connections
       import Plug.Conn
-      import Phoenix.ConnTest
+      import Phoenix.ConnTest, except: [get_flash: 2]
       import MyAppWeb.ConnCase
       import MyApp.Factory
 
       defp login_user(conn, user) do
         MyAppWeb.Authentication.log_in(conn, user)
+      end
+
+      defp get_flash(conn, key) do
+        Phoenix.Flash.get(conn.assigns.flash, key)
       end
     end
   end

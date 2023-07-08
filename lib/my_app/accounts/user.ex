@@ -5,6 +5,8 @@ defmodule MyApp.Accounts.User do
   use MyApp.Schema
   import Ecto.Changeset
 
+  defdelegate authorize(action, user, params), to: MyApp.Accounts.Policies.UserPolicy
+
   @type t() :: %__MODULE__{
           id: Ecto.UUID.t(),
           admin: boolean(),

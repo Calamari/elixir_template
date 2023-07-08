@@ -4,11 +4,14 @@ defmodule MyAppWeb.UserController do
   alias MyApp.Accounts
   alias MyApp.Accounts.User
 
-  plug Bodyguard.Plug.Authorize,
-    policy: MyApp.Accounts.Policies.UserPolicy,
+  plug(Guardian.Plug.EnsureAuthenticated)
+
+  plug(Bodyguard.Plug.Authorize,
+    policy: User,
     action: {Phoenix.Controller, :action_name},
     user: {MyAppWeb.Authentication, :get_current_user},
     fallback: MyAppWeb.AuthorizationFallbackController
+  )
 
   def index(conn, _params) do
     users = Accounts.list_users()

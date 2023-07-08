@@ -7,7 +7,7 @@ defmodule MyAppWeb.ProfileControllerTest do
     test "cannot see those routes", %{conn: conn} do
       Enum.each(
         [
-          get(conn, ~p"/me") |> IO.inspect()
+          get(conn, ~p"/me")
         ],
         fn conn ->
           assert redirected_to(conn) == ~p"/login"
