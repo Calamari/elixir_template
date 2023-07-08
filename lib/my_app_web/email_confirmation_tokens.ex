@@ -2,9 +2,11 @@ defmodule MyAppWeb.EmailConfirmationTokens do
   @moduledoc """
   Context handling email confirmation tokens.
   """
+  # Used for ~p
   use MyAppWeb, :controller
 
   alias MyApp.EmailConfirmationTokens
+  alias MyApp.Accounts.Emails.EmailAddressConfirmationEmail
   alias MyApp.Mailer
 
   @doc """
@@ -43,7 +45,7 @@ defmodule MyAppWeb.EmailConfirmationTokens do
   def do_send_mail_with_token(conn, user) do
     case EmailConfirmationTokens.create_token(user.email) do
       {:ok, token} ->
-        MyApp.Email.email_confirmation_email(
+        EmailAddressConfirmationEmail.build(
           user,
           url(~p"/email/#{user.email}/confirmation/#{token.token}")
         )

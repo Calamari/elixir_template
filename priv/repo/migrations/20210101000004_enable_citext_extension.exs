@@ -1,4 +1,4 @@
-defmodule Nioomi.Repo.Migrations.EnableCitextExtension do
+defmodule MyApp.Repo.Migrations.EnableCitextExtension do
   use Ecto.Migration
 
   def up do

@@ -1,4 +1,4 @@
-defmodule Nioomi.Repo.Migrations.UseCitextForEmails do
+defmodule MyApp.Repo.Migrations.UseCitextForEmails do
   use Ecto.Migration
 
   def up do

@@ -2,7 +2,7 @@ defmodule MyApp.Accounts.Policies.UserPolicy do
   @moduledoc """
   User authorization polices.
   """
-  @behaviour Bodyguard.Policy
+  use MyApp, :policy
 
   alias MyApp.Accounts.User
 

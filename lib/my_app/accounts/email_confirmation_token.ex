@@ -2,8 +2,7 @@ defmodule MyApp.Accounts.EmailConfirmationToken do
   @moduledoc """
   Represents the token that is used in confirming the user’s email.
   """
-  use MyApp.Schema
-  import Ecto.Changeset
+  use MyApp, :schema
 
   @type t() :: %__MODULE__{
           email: String.t(),
@@ -11,8 +10,8 @@ defmodule MyApp.Accounts.EmailConfirmationToken do
         }
 
   schema "email_confirmation_tokens" do
-    field :email, :string
-    field :token, :string
+    field(:email, :string)
+    field(:token, :string)
 
     timestamps()
   end

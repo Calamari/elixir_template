@@ -2,14 +2,13 @@ defmodule MyApp.Accounts.PasswordResetToken do
   @moduledoc """
   Saves the token for the desire to reset a password.
   """
-  use MyApp.Schema
-  import Ecto.Changeset
+  use MyApp, :schema
 
   alias MyApp.Accounts.User
 
   schema "password_reset_tokens" do
-    field :token, :string
-    belongs_to :user, User
+    field(:token, :string)
+    belongs_to(:user, User)
 
     timestamps()
   end

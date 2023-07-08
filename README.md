@@ -34,7 +34,7 @@ mix.ecto.migrate
 To create an admin user, you can run the following task:
 
 ```sh
-mix dance_comm.create_admin your@email.io "Your Name" passw0rd
+mix my_app.create_admin your@email.io "Your Name" passw0rd
 ```
 
 ### Prepare frontend:

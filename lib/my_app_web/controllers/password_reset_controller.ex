@@ -4,7 +4,7 @@ defmodule MyAppWeb.PasswordResetController do
 
   alias MyApp.Accounts
   alias MyApp.Accounts.PasswordResetToken
-  alias MyApp.Email
+  alias MyApp.Accounts.Emails.PasswordResetInstructionsEmail
   alias MyApp.Mailer
 
   def new(conn, _) do
@@ -22,7 +22,7 @@ defmodule MyAppWeb.PasswordResetController do
       user ->
         case Accounts.create_password_reset_token_for_user(user) do
           {:ok, token} ->
-            Email.password_reset_instructions_email(
+            PasswordResetInstructionsEmail.build(
               user,
               url(~p"/forgot_password/redeem?#{%{token: token.token}}")
             )
