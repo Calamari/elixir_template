@@ -20,7 +20,7 @@ defmodule MyAppWeb.Authentication.ErrorHandler do
       end
 
     if conn.request_path != "/login" do
-      redirect(conn, to: Routes.session_path(conn, :new))
+      redirect(conn, to: ~p"/login")
     else
       conn
     end

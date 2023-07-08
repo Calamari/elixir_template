@@ -6,14 +6,14 @@ defmodule MyApp.Factory do
     %MyApp.Accounts.User{
       admin: true,
       email: sequence(:email, &"user-#{&1}@email.io"),
-      encrypted_password: Bcrypt.Base.hash_password("password", Bcrypt.gen_salt(1, true))
+      encrypted_password: Bcrypt.Base.hash_password("password", Bcrypt.Base.gen_salt(1, true))
     }
   end
 
   def user_factory do
     %MyApp.Accounts.User{
       email: sequence(:email, &"user-#{&1}@email.io"),
-      encrypted_password: Bcrypt.Base.hash_password("password", Bcrypt.gen_salt(1, true))
+      encrypted_password: Bcrypt.Base.hash_password("password", Bcrypt.Base.gen_salt(1, true))
     }
   end
 

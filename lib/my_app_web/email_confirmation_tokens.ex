@@ -20,7 +20,7 @@ defmodule MyAppWeb.EmailConfirmationTokens do
       {:ok, token} ->
         MyApp.Email.email_confirmation_email(
           user,
-          Routes.email_confirmation_url(conn, :confirm, user.email, token.token)
+          url(~p"/email/#{user.email}/confirmation/#{token.token}")
         )
         |> Mailer.deliver_later()
 

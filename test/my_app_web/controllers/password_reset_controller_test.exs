@@ -7,14 +7,14 @@ defmodule MyAppWeb.PasswordResetControllerTest do
 
   describe "new password reset" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.password_reset_path(conn, :new))
+      conn = get(conn, ~p"/forgot_password")
       assert html_response(conn, 200) =~ "Forgot your Password?"
     end
   end
 
   describe "sent password reset form" do
     test "renders sent text", %{conn: conn} do
-      conn = get(conn, Routes.password_reset_path(conn, :sent))
+      conn = get(conn, ~p"/forgot_password/sent")
       assert html_response(conn, 200) =~ "Password Reset Instructions Sent"
     end
   end
@@ -24,15 +24,15 @@ defmodule MyAppWeb.PasswordResetControllerTest do
 
     test "redirects to sent text", %{conn: conn, user: user} do
       conn =
-        post(conn, Routes.password_reset_path(conn, :create), %{
+        post(conn, ~p"/forgot_password", %{
           "password_reset" => %{"email" => user.email}
         })
 
-      assert redirected_to(conn) == Routes.password_reset_path(conn, :sent)
+      assert redirected_to(conn) == ~p"/forgot_password/sent"
     end
 
     test "sends out an email", %{conn: conn, user: user} do
-      post(conn, Routes.password_reset_path(conn, :create), %{
+      post(conn, ~p"/forgot_password", %{
         "password_reset" => %{"email" => user.email}
       })
 
@@ -46,11 +46,11 @@ defmodule MyAppWeb.PasswordResetControllerTest do
   describe "create password reset token for non existing user" do
     test "still redirects to sent text", %{conn: conn} do
       conn =
-        post(conn, Routes.password_reset_path(conn, :create), %{
+        post(conn, ~p"/forgot_password", %{
           "password_reset" => %{"email" => "some@email.de"}
         })
 
-      assert redirected_to(conn) == Routes.password_reset_path(conn, :sent)
+      assert redirected_to(conn) == ~p"/forgot_password/sent"
     end
   end
 
@@ -58,15 +58,18 @@ defmodule MyAppWeb.PasswordResetControllerTest do
     setup [:create_user, :create_reset_token]
 
     test "should show a form", %{conn: conn, token: token} do
-      conn = get(conn, Routes.password_reset_path(conn, :redeem, token: token.token))
+      conn = get(conn, ~p"/forgot_password/redeem?#{%{token: token.token}}")
       assert html_response(conn, 200) =~ "Reset your Password"
     end
   end
 
   describe "trying to redeem an invalid password reset token" do
     test "should show a hint", %{conn: conn} do
-      conn = get(conn, Routes.password_reset_path(conn, :redeem, token: "NOPE_NOTHING"))
-      assert html_response(conn, 200) =~ "Password Reset Token Invalid"
+      conn = get(conn, ~p"/forgot_password/redeem/?token=NOPE_NOTHING")
+      assert redirected_to(conn) == ~p"/login"
+
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
+               "The password reset token is invalid"
     end
   end
 
@@ -79,14 +82,14 @@ defmodule MyAppWeb.PasswordResetControllerTest do
       conn =
         post(
           conn,
-          Routes.password_reset_path(conn, :do_redeem, token.token),
+          ~p"/forgot_password/redeem/#{token.token}",
           password_reset: %{
             password: "new_pass",
             password_confirmation: "new_pass"
           }
         )
 
-      assert redirected_to(conn) == Routes.session_path(conn, :new)
+      assert redirected_to(conn) == ~p"/login"
       assert encrypted_password_before != Accounts.get_user!(user.id).encrypted_password
     end
 
@@ -96,7 +99,7 @@ defmodule MyAppWeb.PasswordResetControllerTest do
       conn =
         post(
           conn,
-          Routes.password_reset_path(conn, :do_redeem, token.token),
+          ~p"/forgot_password/redeem/#{token.token}",
           password_reset: %{
             password: "short"
           }
@@ -113,11 +116,14 @@ defmodule MyAppWeb.PasswordResetControllerTest do
       conn =
         post(
           conn,
-          Routes.password_reset_path(conn, :do_redeem, "NOPE_NOTHING"),
+          ~p"/forgot_password/redeem/NOPE_NOTHING",
           password_reset: %{}
         )
 
-      assert html_response(conn, 200) =~ "Password Reset Token Invalid"
+      assert redirected_to(conn) == ~p"/login"
+
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
+               "The password reset token is invalid"
     end
   end
 

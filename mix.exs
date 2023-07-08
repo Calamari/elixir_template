@@ -5,17 +5,9 @@ defmodule MyApp.MixProject do
     [
       app: :my_app,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test
-      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -27,7 +19,7 @@ defmodule MyApp.MixProject do
   def application do
     [
       mod: {MyApp.Application, []},
-      extra_applications: [:honeybadger, :logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -41,25 +33,26 @@ defmodule MyApp.MixProject do
   defp deps do
     [
       # Assets bundling
-      {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
 
       # HTTP Client
-      {:hackney, "~> 1.18"},
+      {:finch, "~> 0.13"},
 
       # HTTP server
       {:plug_cowboy, "~> 2.5"},
 
       # Phoenix
-      {:phoenix, "~> 1.6.0"},
+      {:phoenix, "~> 1.7.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.16.0"},
-      {:phoenix_live_dashboard, "~> 0.5"},
-      {:jason, "~> 1.2"},
+      {:phoenix_live_view, "~> 0.19.0"},
+      {:phoenix_live_dashboard, "~> 0.8"},
+      {:jason, "~> 1.4"},
 
       # Database
-      {:ecto_sql, "~> 3.6"},
+      {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
 
       # PostgreSQL PostGIS extension
@@ -69,7 +62,7 @@ defmodule MyApp.MixProject do
       {:ueberauth, "~> 0.6"},
       {:ueberauth_identity, "~> 0.3"},
       {:guardian, "~> 2.1"},
-      {:bcrypt_elixir, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"},
       {:secure_random, "~> 0.5"},
 
       # Authorization
@@ -94,14 +87,14 @@ defmodule MyApp.MixProject do
       # Linting
       {:credo, "~> 1.5", only: [:dev, :test], override: true},
       {:credo_envvar, "~> 0.1", only: [:dev, :test], runtime: false},
-      {:credo_naming, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:credo_naming, "~> 2.0", only: [:dev, :test], runtime: false},
 
       # Security check
       {:sobelow, "~> 0.11", only: [:dev, :test], runtime: true},
-      {:mix_audit, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 2.0", only: [:dev, :test], runtime: false},
 
       # Email
-      {:bamboo, "~> 2.1.0"},
+      {:bamboo, "~> 2.3"},
       {:bamboo_phoenix, "~> 1.0"},
 
       # Error tracking
@@ -121,14 +114,13 @@ defmodule MyApp.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
+      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": [
-        "cmd --cd assets NODE_ENV=production node scripts/build.js",
-        "phx.digest"
-      ]
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.build": ["tailwind default", "esbuild default"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end

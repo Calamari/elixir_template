@@ -19,9 +19,9 @@ defmodule MyAppWeb.RegistrationControllerTest do
     test "registers a user", %{conn: conn} do
       conn =
         conn
-        |> post(Routes.registration_path(conn, :create), @valid_params)
+        |> post(~p"/register", @valid_params)
 
-      assert redirected_to(conn, 302) =~ Routes.profile_path(conn, :show)
+      assert redirected_to(conn, 302) =~ ~p"/me"
 
       assert MyApp.Accounts.get_by_email(@email) |> Map.take(~w[name email]a) == %{
                name: @name,
@@ -33,8 +33,8 @@ defmodule MyAppWeb.RegistrationControllerTest do
       conn =
         conn
         |> Plug.Test.init_test_session(%{})
-        |> get(Routes.registration_path(conn, :new), %{after: "/some/other/path"})
-        |> post(Routes.registration_path(conn, :create), @valid_params)
+        |> get(~p"/register", %{after: "/some/other/path"})
+        |> post(~p"/register", @valid_params)
 
       assert redirected_to(conn, 302) =~ "/some/other/path"
     end
@@ -43,14 +43,14 @@ defmodule MyAppWeb.RegistrationControllerTest do
       conn =
         conn
         |> Plug.Test.init_test_session(%{})
-        |> get(Routes.registration_path(conn, :new), %{after: ""})
-        |> post(Routes.registration_path(conn, :create), @valid_params)
+        |> get(~p"/register", %{after: ""})
+        |> post(~p"/register", @valid_params)
 
-      assert redirected_to(conn, 302) =~ Routes.profile_path(conn, :show)
+      assert redirected_to(conn, 302) =~ ~p"/me"
     end
 
     test "sends out an email to confirm email address", %{conn: conn} do
-      post(conn, Routes.registration_path(conn, :create), @valid_params)
+      post(conn, ~p"/register", @valid_params)
 
       assert_delivered_email_matches(%{to: [{_, @email}], text_body: text_body})
 

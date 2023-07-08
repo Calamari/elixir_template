@@ -8,8 +8,8 @@ import Config
 config :my_app, MyApp.Repo,
   username: "postgres",
   password: "postgres",
-  database: "my_app_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
+  database: "my_app_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
@@ -17,7 +17,7 @@ config :my_app, MyApp.Repo,
 # you can enable the server option below.
 config :my_app, MyAppWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "AYdzMYgtlMSGv8FKH9O2gAw9i8FCCAeci7aDYbuRu7coPFqRNzDIawqByLFGi51t",
+  secret_key_base: "qySFmrPrlFdG20HElFtQH5ie5O9Qs959F0C/0EKcoKNhqNRtmnl/vUtois5o2lwi",
   server: false
 
 config :my_app, MyAppWeb.Router,
@@ -32,7 +32,7 @@ config :my_app, MyAppWeb.Authentication,
 config :my_app, MyApp.Mailer, adapter: Bamboo.TestAdapter
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime

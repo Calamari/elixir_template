@@ -1,0 +1,7 @@
+<.simple_form :let={f} for={@changeset} action={@action} as="password_reset">
+  <.input field={f[:email]} label="Email address" />
+
+  <:actions>
+    <.button>Send Reset Instructions</.button>
+  </:actions>
+</.simple_form>

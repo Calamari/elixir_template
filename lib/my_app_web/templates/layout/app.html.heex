@@ -1,8 +1,0 @@
-<main class="flex justify-center grow bg-gray-100 p-4 bg-gradient-to-t from-white to-gray-50">
-  <section class="flex flex-col justify-start grow container">
-    <%= render("_flash_success.html", text: get_flash(@conn, :success)) %>
-    <%= render("_flash_info.html", text: get_flash(@conn, :info)) %>
-    <%= render("_flash_error.html", text: get_flash(@conn, :error)) %>
-    <%= @inner_content %>
-  </section>
-</main>

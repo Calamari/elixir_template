@@ -1,0 +1,10 @@
+<.header>
+  Forgot your Password?
+</.header>
+
+<.reset_form changeset={@changeset} action={~p"/forgot_password"} />
+<p class="mt-6">
+  Just remembered your password? <.link href={~p"/login"}>Log in here</.link>
+</p>
+
+<.back navigate={~p"/"}>Back to root</.back>

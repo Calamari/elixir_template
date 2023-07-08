@@ -10,7 +10,7 @@ defmodule MyAppWeb.PasswordResetController do
   def new(conn, _) do
     render(conn, :new,
       changeset: PasswordResetToken.form_changeset(),
-      action: Routes.password_reset_path(conn, :create)
+      action: ~p"/forgot_password"
     )
   end
 
@@ -24,7 +24,7 @@ defmodule MyAppWeb.PasswordResetController do
           {:ok, token} ->
             Email.password_reset_instructions_email(
               user,
-              Routes.password_reset_url(conn, :redeem, token: token.token)
+              url(~p"/forgot_password/redeem?#{%{token: token.token}}")
             )
             |> Mailer.deliver_later()
 
@@ -35,7 +35,7 @@ defmodule MyAppWeb.PasswordResetController do
 
     conn
     |> put_flash(:success, "Password Reset Instructions Sent")
-    |> redirect(to: Routes.password_reset_path(conn, :sent))
+    |> redirect(to: ~p"/forgot_password/sent")
   end
 
   def sent(conn, _) do
@@ -43,11 +43,17 @@ defmodule MyAppWeb.PasswordResetController do
   end
 
   def redeem(conn, %{"token" => token}) do
-    render(conn, :redeem,
-      valid_token: Accounts.is_valid_password_reset_token(token),
-      changeset: Accounts.User.password_changeset(),
-      action: Routes.password_reset_path(conn, :do_redeem, token)
-    )
+    if Accounts.password_reset_token_valid?(token) do
+      render(conn, :redeem,
+        token: token,
+        changeset: Accounts.User.password_changeset(),
+        action: "/forgot_password/redeem/#{token}"
+      )
+    else
+      conn
+      |> put_flash(:error, "The password reset token is invalid.")
+      |> redirect(to: ~p"/login")
+    end
   end
 
   def do_redeem(conn, %{
@@ -59,17 +65,19 @@ defmodule MyAppWeb.PasswordResetController do
          {:ok, _} <- Accounts.update_password_of_user(user, password_reset_params) do
       conn
       |> put_flash(:success, "Password was successfully changed!")
-      |> redirect(to: Routes.session_path(conn, :new))
+      |> redirect(to: ~p"/login")
     else
       {:error, changeset} ->
         render(conn, :redeem,
-          valid_token: true,
+          token: token,
           changeset: changeset,
-          action: Routes.password_reset_path(conn, :do_redeem, token)
+          action: "/forgot_password/redeem/#{token}"
         )
 
       _ ->
-        render(conn, :redeem, valid_token: false)
+        conn
+        |> put_flash(:error, "The password reset token is invalid.")
+        |> redirect(to: ~p"/login")
     end
   end
 end

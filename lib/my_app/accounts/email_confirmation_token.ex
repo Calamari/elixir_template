@@ -31,7 +31,7 @@ defmodule MyApp.Accounts.EmailConfirmationToken do
   end
 
   defp generate_token(changeset) do
-    put_change(changeset, :token, SecureRandom.urlsafe_base64())
+    put_change(changeset, :token, MyApp.Helpers.random_string(16))
   end
 
   defp downcase(changeset, field) do

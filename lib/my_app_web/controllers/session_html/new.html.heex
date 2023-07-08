@@ -1,0 +1,12 @@
+<.header>
+  Log In
+</.header>
+
+<.login_form changeset={@changeset} action={~p"/login"} />
+<p class="mt-6">
+  Need an account? <.link href={~p"/register"}>Register here</.link>
+  <br />
+  <.link href={~p"/forgot_password"}>Forgot your password?</.link>
+</p>
+
+<.back navigate={~p"/"}>Back to root</.back>

@@ -1,16 +1,14 @@
 defmodule MyAppWeb.Router do
-  @moduledoc false
   use MyAppWeb, :router
-  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
-    plug(:session)
+    plug :session
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {MyAppWeb.LayoutView, :root}
+    plug :put_root_layout, html: {MyAppWeb.Layouts, :root}
     plug :protect_from_forgery
-    plug :put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'"}
+    plug :put_secure_browser_headers
   end
 
   pipeline :auth do
@@ -29,7 +27,9 @@ defmodule MyAppWeb.Router do
   scope "/", MyAppWeb do
     pipe_through [:browser, :auth, :assign_current_user]
 
-    get "/", PageController, :index
+    get "/", PageController, :home
+
+    resources "/users", UserController
 
     # Authentication flow routes
     get("/register", RegistrationController, :new)
@@ -46,16 +46,17 @@ defmodule MyAppWeb.Router do
     get("/email/:email/confirmation/:token", EmailConfirmationController, :confirm,
       as: :email_confirmation
     )
-  end
-
-  scope "/", MyAppWeb do
-    pipe_through [:browser, :ensure_auth, :assign_current_user]
-
-    resources("/profile", ProfileController, only: [:show], singleton: true)
 
     post("/email/confirmation/", EmailConfirmationController, :create,
       as: :resend_email_confirmation
     )
+  end
+
+  # Logged in only routes
+  scope "/", MyAppWeb do
+    pipe_through [:browser, :ensure_auth, :assign_current_user]
+
+    get("/me", ProfileController, :me)
   end
 
   # Other scopes may use custom stacks.
@@ -63,18 +64,14 @@ defmodule MyAppWeb.Router do
   #   pipe_through :api
   # end
 
-  # Enables LiveDashboard for admin users
   scope "/admin" do
     pipe_through([:browser, :ensure_auth, :assign_current_user, :ensure_admin])
 
+    import Phoenix.LiveDashboard.Router
     live_dashboard "/dashboard", metrics: MyAppWeb.Telemetry
   end
 
-  # Enables the Bamboo mailbox preview in development.
-  #
-  # Note that preview only shows emails that were sent by the same
-  # node running the Phoenix server.
-  if Mix.env() == :dev do
+  if Application.compile_env(:my_app, :dev_routes) do
     scope "/dev" do
       pipe_through :browser
 
@@ -85,7 +82,7 @@ defmodule MyAppWeb.Router do
   defp ensure_admin(conn, _) do
     user = conn.assigns.current_user
 
-    case Bodyguard.permit?(MyApp, :show, user) do
+    case Bodyguard.permit?(MyApp, :show_admin, user) do
       true ->
         conn
 
@@ -93,7 +90,7 @@ defmodule MyAppWeb.Router do
         conn
         |> put_status(403)
         |> put_view(NioomiWeb.ErrorView)
-        |> render("403.html")
+        |> render(:"403")
         |> halt()
     end
   end

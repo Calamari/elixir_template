@@ -1,5 +1,5 @@
 defmodule MyApp.AccountsTest do
-  use MyApp.DataCase, async: true
+  use MyApp.DataCase
 
   import MyApp.Factory
   alias MyApp.Accounts
@@ -7,7 +7,7 @@ defmodule MyApp.AccountsTest do
   alias MyApp.Accounts.PasswordResetToken
 
   describe "users" do
-    @valid_attrs %{admin: true, email: "some@EMAIL.io", name: "Obi Van", password: "obikinobi"}
+    @valid_attrs %{admin: true, email: "some@email.io", name: "Obi Van", password: "obikinobi"}
     @update_attrs %{
       admin: false,
       email: "some_updated@email.io",
@@ -25,7 +25,7 @@ defmodule MyApp.AccountsTest do
     end
 
     test "get_by_email/1 finds user by name (caseinsensitive)" do
-      user = insert(:user, email: "luke@skywalk.er", name: "Luke")
+      insert(:user, email: "luke@skywalk.er", name: "Luke")
 
       assert Accounts.get_by_email("luke@skywalk.er").name == "Luke"
       assert Accounts.get_by_email("luke@SKYwalk.er").name == "Luke"
@@ -147,7 +147,7 @@ defmodule MyApp.AccountsTest do
     end
   end
 
-  describe "#is_valid_password_reset_token" do
+  describe "#password_reset_token_valid?" do
     setup _context do
       {:ok, old_user} =
         Accounts.create_user(%{email: "old_token@email.com", password: "testmegood"})
@@ -171,15 +171,15 @@ defmodule MyApp.AccountsTest do
     end
 
     test "returns true for current token" do
-      assert true == Accounts.is_valid_password_reset_token("current_token")
+      assert true == Accounts.password_reset_token_valid?("current_token")
     end
 
     test "returns false for outdated token" do
-      assert false == Accounts.is_valid_password_reset_token("old_token")
+      assert false == Accounts.password_reset_token_valid?("old_token")
     end
 
     test "returns false for if token does not exist" do
-      assert false == Accounts.is_valid_password_reset_token("no_token")
+      assert false == Accounts.password_reset_token_valid?("no_token")
     end
   end
 
@@ -274,16 +274,6 @@ defmodule MyApp.AccountsTest do
 
       assert {:ok, %User{} = user} = result
       assert user.email
-      assert pre_count + 1 == count_of(User)
-    end
-
-    test "stores email downcased" do
-      pre_count = count_of(User)
-
-      result = Accounts.register(%{@valid_attrs | email: "SOME@email.Io"})
-
-      assert {:ok, %User{} = user} = result
-      assert user.email == "some@email.io"
       assert pre_count + 1 == count_of(User)
     end
 

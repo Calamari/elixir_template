@@ -1,0 +1,8 @@
+<.simple_form :let={f} for={@changeset} action={@action} as="account">
+  <.input field={f[:email]} label="Email address" />
+  <.input field={f[:password]} type="password" label="Password" />
+
+  <:actions>
+    <.button>Log In</.button>
+  </:actions>
+</.simple_form>

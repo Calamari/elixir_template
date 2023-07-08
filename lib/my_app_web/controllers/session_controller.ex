@@ -2,24 +2,25 @@ defmodule MyAppWeb.SessionController do
   use MyAppWeb, :controller
 
   alias MyApp.Accounts
+  alias MyApp.Accounts.User
   alias MyAppWeb.Authentication
 
   def new(conn, _params) do
     if Authentication.get_current_user(conn) do
-      redirect(conn, to: Routes.profile_path(conn, :show))
+      redirect(conn, to: ~p"/")
     else
-      render(conn, :new,
-        changeset: Accounts.change_user(),
-        action: Routes.session_path(conn, :create)
-      )
+      render(conn, :new, changeset: Accounts.change_user(%User{}))
     end
   end
 
   def create(conn, %{"account" => %{"email" => email, "password" => password}}) do
     if Authentication.get_current_user(conn) do
-      redirect(conn, to: Routes.profile_path(conn, :show))
+      # TODO: /me
+      redirect(conn, to: ~p"/me")
     else
-      case email |> Accounts.get_by_email() |> Authentication.authenticate(password) do
+      case email
+           |> Accounts.get_by_email()
+           |> Authentication.authenticate(password) do
         {:ok, account} ->
           redirect_path = get_session(conn, :register_redirect)
 
@@ -28,8 +29,8 @@ defmodule MyAppWeb.SessionController do
           |> delete_session(:register_redirect)
           |> redirect(
             to:
-              if(is_empty(redirect_path),
-                do: Routes.profile_path(conn, :show),
+              if(redirect_path == "" or redirect_path == nil,
+                do: ~p"/me",
                 else: redirect_path
               )
           )
@@ -45,6 +46,6 @@ defmodule MyAppWeb.SessionController do
   def delete(conn, _params) do
     conn
     |> Authentication.log_out()
-    |> redirect(to: Routes.session_path(conn, :new))
+    |> redirect(to: ~p"/login")
   end
 end

@@ -13,9 +13,12 @@ config :my_app,
 # Configures the endpoint
 config :my_app, MyAppWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: MyAppWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    formats: [html: MyAppWeb.ErrorHTML, json: MyAppWeb.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: MyApp.PubSub,
-  live_view: [signing_salt: "VhGdDVAr"]
+  live_view: [signing_salt: "dHM35MF3"]
 
 config :my_app, MyApp.Repo, migration_primary_key: [type: :uuid]
 
@@ -31,17 +34,30 @@ config :my_app, :email_sender, "joda@example.com"
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.12.18",
+  version: "0.17.11",
   default: [
-    "build.js",
-    cd: Path.expand("../assets/scripts", __DIR__),
-    env: %{
-      "ESBUILD_LOG_LEVEL" => "silent",
-      "ESBUILD_WATCH" => "1",
-      "NODE_ENV" => "development",
-      "NODE_PATH" => Path.expand("../deps", __DIR__)
-    }
+    args:
+      ~w(js/app.ts --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
+
+# Configure tailwind (the version is required)
+config :tailwind,
+  version: "3.2.7",
+  default: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/app.css
+      --output=../priv/static/assets/app.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
 
 config :ueberauth, Ueberauth,
   providers: [
@@ -57,14 +73,8 @@ config :ueberauth, Ueberauth,
 
 config :my_app, MyAppWeb.Authentication, issuer: "my_app"
 
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
-
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
-
 config :geo_postgis, json_library: Jason
 
 plausible_host = System.get_env("PLAUSIBLE_HOST")

@@ -11,7 +11,7 @@ defmodule MyAppWeb.EmailConfirmationController do
     conn
     |> EmailConfirmationTokens.send_mail_with_token(user, true)
     |> put_flash(:info, "Email confirmation sent to #{user.email}")
-    |> redirect(to: Routes.profile_path(conn, :show))
+    |> redirect(to: ~p"/me")
   end
 
   def confirm(conn, %{
@@ -22,8 +22,8 @@ defmodule MyAppWeb.EmailConfirmationController do
       :ok ->
         redirect_target =
           case Authentication.get_current_user(conn) do
-            nil -> Routes.session_path(conn, :new)
-            _ -> Routes.profile_path(conn, :show)
+            nil -> ~p"/login"
+            _ -> ~p"/me"
           end
 
         conn
@@ -42,8 +42,8 @@ defmodule MyAppWeb.EmailConfirmationController do
   defp show_error(conn) do
     redirect_target =
       case Authentication.get_current_user(conn) do
-        nil -> Routes.page_path(conn, :index)
-        _ -> Routes.profile_path(conn, :show)
+        nil -> ~p"/"
+        _ -> ~p"/me"
       end
 
     conn

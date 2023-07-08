@@ -8,12 +8,14 @@ defmodule MyApp.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      MyApp.Repo,
       # Start the Telemetry supervisor
       MyAppWeb.Telemetry,
+      # Start the Ecto repository
+      MyApp.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: MyApp.PubSub},
+      # Start Finch
+      {Finch, name: MyApp.Finch},
       # Start the Endpoint (http/https)
       MyAppWeb.Endpoint
       # Start a worker by calling: MyApp.Worker.start_link(arg)

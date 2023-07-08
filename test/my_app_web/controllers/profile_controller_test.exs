@@ -7,10 +7,10 @@ defmodule MyAppWeb.ProfileControllerTest do
     test "cannot see those routes", %{conn: conn} do
       Enum.each(
         [
-          get(conn, Routes.profile_path(conn, :show))
+          get(conn, ~p"/me") |> IO.inspect()
         ],
         fn conn ->
-          assert html_response(conn, 302)
+          assert redirected_to(conn) == ~p"/login"
         end
       )
     end
@@ -25,7 +25,7 @@ defmodule MyAppWeb.ProfileControllerTest do
       conn =
         conn
         |> login_user(user)
-        |> get(Routes.profile_path(conn, :show))
+        |> get(~p"/me")
 
       assert html_response(conn, 200) =~ "Hello, bob@dylan.com"
     end

@@ -1,0 +1,8 @@
+<.simple_form :let={f} for={@changeset} action={@action} as="password_reset">
+  <.input field={f[:password]} type="password" label="Password" reduired />
+  <.input field={f[:password_confirmation]} type="password" label="Confirm password" reduired />
+
+  <:actions>
+    <.button>Save new password</.button>
+  </:actions>
+</.simple_form>

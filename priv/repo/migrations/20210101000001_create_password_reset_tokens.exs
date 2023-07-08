@@ -8,7 +8,5 @@ defmodule MyApp.Repo.Migrations.CreatePasswordResetTokens do
 
       timestamps()
     end
-
-    create unique_index(:password_reset_tokens, :user_id)
   end
 end

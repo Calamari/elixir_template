@@ -3,6 +3,7 @@ defmodule MyAppWeb.RegistrationController do
   plug Ueberauth
 
   alias MyApp.Accounts
+  alias MyApp.Accounts.User
   alias MyAppWeb.Authentication
   alias MyAppWeb.EmailConfirmationTokens
 
@@ -10,8 +11,8 @@ defmodule MyAppWeb.RegistrationController do
     conn
     |> put_session(:register_redirect, Map.get(params, "after", ""))
     |> render(:new,
-      changeset: Accounts.change_user(),
-      action: Routes.registration_path(conn, :create)
+      changeset: Accounts.change_user(%User{}),
+      action: ~p"/register"
     )
   end
 
@@ -26,8 +27,8 @@ defmodule MyAppWeb.RegistrationController do
         |> EmailConfirmationTokens.send_mail_with_token(user)
         |> redirect(
           to:
-            if(is_empty(redirect_path),
-              do: Routes.profile_path(conn, :show),
+            if(redirect_path == "" or redirect_path == nil,
+              do: ~p"/me",
               else: redirect_path
             )
         )
@@ -35,7 +36,7 @@ defmodule MyAppWeb.RegistrationController do
       {:error, changeset} ->
         render(conn, :new,
           changeset: changeset,
-          action: Routes.registration_path(conn, :create)
+          action: ~p"/register"
         )
     end
   end

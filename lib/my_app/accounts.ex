@@ -165,7 +165,7 @@ defmodule MyApp.Accounts do
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user(%User{} = user \\ %User{}, attrs \\ %{}) do
+  def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
 
@@ -188,10 +188,10 @@ defmodule MyApp.Accounts do
 
   ## Examples
 
-      iex> is_valid_password_reset_token("random_string_token")
+      iex> password_reset_token_valid?("random_string_token")
       true
   """
-  def is_valid_password_reset_token(token_string) do
+  def password_reset_token_valid?(token_string) do
     case Repo.get_by(PasswordResetToken, token: token_string) do
       nil ->
         false

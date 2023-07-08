@@ -1,0 +1,10 @@
+<.simple_form :let={f} for={@changeset} action={@action} as="account">
+  <.input field={f[:name]} label="Name" />
+  <.input field={f[:email]} label="Email address" />
+  <.input field={f[:password]} type="password" label="Password" />
+  <.input field={f[:password_confirmation]} type="password" label="Password Confirmation" />
+
+  <:actions>
+    <.button>Register</.button>
+  </:actions>
+</.simple_form>

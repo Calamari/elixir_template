@@ -4,8 +4,9 @@ import Config
 config :my_app, MyApp.Repo,
   username: "postgres",
   password: "postgres",
-  database: "my_app_dev",
   hostname: "localhost",
+  database: "my_app_dev",
+  stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -13,8 +14,8 @@ config :my_app, MyApp.Repo,
 # debugging and code reloading.
 #
 # The watchers configuration can be used to run external
-# watchers to your application. For example, we use it
-# with esbuild to bundle .js and .css sources.
+# watchers to your application. For example, we can use it
+# to bundle .js and .css sources.
 config :my_app, MyAppWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
@@ -22,18 +23,15 @@ config :my_app, MyAppWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "CNI5bEYwsu1MxxxZOH4kfoCf6LKY6CtywOcsMRZAwkSWryKNyEEyQgw+70kHw5KS",
+  secret_key_base: "POBMUAqPhbcpqkytVdb0p1Jx4AfsvjTFNZ5qiPDTT6s4R4X2FefUrv1kytZ4FloL",
   watchers: [
-    node: [
-      "build.js",
-      cd: Path.expand("../assets/scripts/", __DIR__),
-      env: %{"ESBUILD_LOG_LEVEL" => "silent", "ESBUILD_WATCH" => "1", "NODE_ENV" => "development"}
-    ]
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 config :my_app, MyAppWeb.Authentication,
   issuer: "my_app",
-  secret_key: "qs0y6iXwd36NdnKpD3aZoMlY9qJCq0bq8gsla2QynK1BtyIa9udlcJ0W1RJ3n3jX"
+  secret_key: "qs0y6iXwd36NdnKpD3aZoMlY9qJCq0bq8gsla2QynK1BtyIa9udlcJ0W1RJ3n3iX"
 
 # ## SSL Support
 #
@@ -43,7 +41,6 @@ config :my_app, MyAppWeb.Authentication,
 #
 #     mix phx.gen.cert
 #
-# Note that this task requires Erlang/OTP 20 or later.
 # Run `mix help phx.gen.cert` for more information.
 #
 # The `http:` config above can be replaced with:
@@ -65,8 +62,7 @@ config :my_app, MyAppWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/my_app_web/(live|views)/.*(ex)$",
-      ~r"lib/my_app_web/templates/.*(eex)$"
+      ~r"lib/my_app_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 
@@ -74,7 +70,8 @@ config :my_app, MyAppWeb.Router,
   session_key: "my_app_dev_sess",
   session_signing_salt: "bzt+fviYAyUARQr1KzfxxWtv41fsqcAiQKqlIPVvc4kFeAlByE+NBb+aIf3K2DAh"
 
-config :my_app, Nioomi.Mailer, adapter: Bamboo.LocalAdapter
+# Enable dev routes for dashboard and mailbox
+config :my_app, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

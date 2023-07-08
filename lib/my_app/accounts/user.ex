@@ -6,7 +6,7 @@ defmodule MyApp.Accounts.User do
   import Ecto.Changeset
 
   @type t() :: %__MODULE__{
-          id: String.t(),
+          id: Ecto.UUID.t(),
           admin: boolean(),
           confirmed: boolean(),
           email: String.t(),
@@ -31,7 +31,6 @@ defmodule MyApp.Accounts.User do
     user
     |> cast(attrs, [:email, :password, :name])
     |> validate_required([:email, :password])
-    |> downcase(:email)
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password, required: true)
     |> validate_format(:email, ~r/@/)
@@ -43,8 +42,7 @@ defmodule MyApp.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:admin, :email, :name, :password])
-    |> validate_required([:admin, :email, :password])
-    |> downcase(:email)
+    |> validate_required([:email, :password])
     |> validate_length(:password, min: 8)
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
@@ -72,13 +70,9 @@ defmodule MyApp.Accounts.User do
     put_change(
       changeset,
       :encrypted_password,
-      Bcrypt.Base.hash_password(pw, Bcrypt.gen_salt(12, true))
+      Bcrypt.Base.hash_password(pw, Bcrypt.Base.gen_salt(12, true))
     )
   end
 
   defp put_encrypted_password(changeset), do: changeset
-
-  defp downcase(changeset, field) do
-    update_change(changeset, field, &String.downcase/1)
-  end
 end
