@@ -9,7 +9,7 @@ defmodule MyAppWeb.EmailConfirmationController do
     user = conn.assigns.current_user
 
     conn
-    |> EmailConfirmationTokens.send_mail_with_token(user, true)
+    |> EmailConfirmationTokens.send_mail_with_token!(user)
     |> put_flash(:info, "Email confirmation sent to #{user.email}")
     |> redirect(to: ~p"/me")
   end

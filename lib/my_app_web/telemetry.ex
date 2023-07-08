@@ -1,4 +1,7 @@
 defmodule MyAppWeb.Telemetry do
+  @moduledoc """
+  Telemetry configuration for Phoenix and Ecto metrics.
+  """
   use Supervisor
   import Telemetry.Metrics
 
